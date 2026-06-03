@@ -1,0 +1,98 @@
+import java.util.*;
+
+public class FraudNetworkTraversal {
+
+    static Map<String,List<String>> graph =
+            new LinkedHashMap<>();
+
+    static void BFS(String start) {
+
+        Queue<String> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+
+        q.add(start);
+        visited.add(start);
+
+        while(!q.isEmpty()) {
+
+            String node = q.poll();
+
+            System.out.print(node + " ");
+
+            for(String n : graph.get(node)) {
+
+                if(!visited.contains(n)) {
+
+                    visited.add(n);
+                    q.add(n);
+                }
+            }
+        }
+    }
+
+    static void DFS(String node,
+                    Set<String> visited) {
+
+        visited.add(node);
+
+        System.out.print(node + " ");
+
+        for(String n : graph.get(node)) {
+
+            if(!visited.contains(n))
+                DFS(n, visited);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        graph.put("AccountA",
+                Arrays.asList(
+                "AccountB",
+                "AccountC",
+                "AccountD"));
+
+        graph.put("AccountB",
+                Collections.emptyList());
+
+        graph.put("AccountC",
+                Collections.emptyList());
+
+        graph.put("AccountD",
+                Arrays.asList(
+                "AccountE",
+                "AccountF"));
+
+        graph.put("AccountE",
+                Collections.emptyList());
+
+        graph.put("AccountF",
+                Collections.emptyList());
+
+        System.out.println(
+        "===== FinPulse Fraud Network Analysis =====");
+
+        System.out.println(
+        "\nFraud Network Structure");
+
+        System.out.println(
+        "AccountA -> AccountB, AccountC, AccountD");
+
+        System.out.println(
+        "AccountD -> AccountE, AccountF");
+
+        System.out.println(
+        "\nBFS Traversal");
+
+        BFS("AccountA");
+
+        System.out.println(
+        "\n\nDFS Traversal");
+
+        DFS("AccountA",
+            new HashSet<>());
+
+        System.out.println(
+        "\n\nAnalysis Completed");
+    }
+}
